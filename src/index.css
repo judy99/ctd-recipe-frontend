@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html,
 body {
   height: 100%;
@@ -14,13 +18,7 @@ body {
   font-size: 1em;
 }
 
-h1 {
-  margin: 0;
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: 2.2em;
-  line-height: 1.1;
-}
-
+h1,
 h2,
 h3,
 h4,
