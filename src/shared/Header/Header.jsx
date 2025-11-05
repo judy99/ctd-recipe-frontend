@@ -8,19 +8,18 @@ export default function Header({ title }) {
   };
 
   return (
-    <header className="bg-teal-200 pt-[30px] px-[10px] pb-[10px]">
-      <h1 className="m-0 text-center font-sans text-[2.2em] leading-[1.1] font-bold">
-        {title}
-      </h1>
-
-      <nav className="flex justify-end px-5">
-        <NavLink to={'/'} className={(el) => checkActive(el)}>
-          Home
-        </NavLink>
-        <NavLink to={'/about'} className={(el) => checkActive(el)}>
-          About
-        </NavLink>
-      </nav>
+    <header className="bg-teal-200 py-4 shadow-sm">
+      <div className="container mx-auto px-4 flex justify-between items-center">
+        <h1 className="text-3xl font-bold text-black">{title}</h1>
+        <nav className="space-x-6 text-lg">
+          <NavLink to={'/'} className={(el) => checkActive(el)}>
+            Home
+          </NavLink>
+          <NavLink to={'/about'} className={(el) => checkActive(el)}>
+            About
+          </NavLink>
+        </nav>
+      </div>
     </header>
   );
 }

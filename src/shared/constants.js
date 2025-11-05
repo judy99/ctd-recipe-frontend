@@ -4,4 +4,4 @@ export const DEFAULT_PHOTO_URL =
 export const DEFAULT_CATEGORY = 'breakfast';
 export const ITEMS_PER_PAGE = 10;
 // for text area in create/update recipe form
-export const MAX_LENGTH_TEXT = 1000;
+export const MAX_LENGTH_TEXT = 10000;

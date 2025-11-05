@@ -1,15 +1,15 @@
 export default function CategoryBadge({ category }) {
   const bgColors = {
     breakfast: 'bg-cyan-200',
-    lunch: 'bg-pink-300',
+    lunch: 'bg-pink-200',
     dinner: 'bg-yellow-200',
     dessert: 'bg-pink-200',
-    soup: 'bg-amber-400',
+    soup: 'bg-amber-200',
   };
 
   return (
     <span
-      className={`px-2.5 py-1 rounded-2xl w-fit h-fit mr-1 ${
+      className={`inline-block text-gray-800 px-3 py-1 rounded-full text-sm uppercase font-medium ${
         bgColors[category] || ''
       }`}
     >

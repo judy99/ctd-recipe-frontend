@@ -9,14 +9,14 @@ function TextInputWithLabel({
 }) {
   return (
     <>
-      <label
-        htmlFor={elementId}
-        className={
-          labelText.length && 'block text-sm/6 font-bold text-gray-900'
-        }
-      >
-        {labelText}
-      </label>
+      {labelText.length > 0 && (
+        <label
+          htmlFor={elementId}
+          className="block text-sm/6 font-bold text-gray-900"
+        >
+          {labelText}
+        </label>
+      )}
       <div className="mt-2">
         <div
           className={`flex items-center rounded-md bg-white pl-3 outline -outline-offset outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600 ${error && `border border-red-500`}`}

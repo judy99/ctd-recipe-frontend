@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { getOptions } from './utility/getOptions';
 import Header from './shared/Header/Header';
-import styles from './App.module.css';
+// import styles from './App.module.css';
 import HomePage from './pages/HomePage';
 import RecipePage from './pages/RecipePage';
 import Modal from './features/Modal/Modal';
@@ -151,9 +151,9 @@ function App() {
     }
   };
   return (
-    <div className={styles.appWrapper}>
+    <div className="h-screen bg-white mx-auto flex flex-col max-w-[1300px] min-w-[350px]">
       <Header title={title} />
-      <main>
+      <main className="flex-grow px-10 pt-10 pb-0">
         <Routes>
           <Route path="/" element={<HomePage addRecipe={addRecipe} />} />
           <Route path="/recipe/:id" element={<RecipePage />} />
@@ -168,9 +168,9 @@ function App() {
           updateRecipe={updateRecipe}
         />
       </Modal>
-      <footer>
-        <p>
-          &copy; <span className={styles.currentYear}>{currentYear}</span>
+      <footer className="mx-auto w-full text-center p-2 box-border mt-6 bg-[#a6e6e6]">
+        <p className="m-0">
+          &copy; <span className="pr-2.5">{currentYear}</span>
           Recipe Book
         </p>
       </footer>

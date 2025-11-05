@@ -1,5 +1,4 @@
 import RecipeListItem from './RecipeListItem';
-import styles from './RecipeList.module.css';
 import Pagination from '../Pagination/Pagination';
 import { useSearchParams, useNavigate } from 'react-router';
 import { useEffect } from 'react';
@@ -44,7 +43,7 @@ function RecipeList() {
     <Loader />
   ) : slicedRecipes.length ? (
     <>
-      <ul className={styles.recipeList}>
+      <ul className="list-none mb-4 pl-0 overflow-y-scroll flex flex-wrap justify-center">
         {slicedRecipes.map((recipe) => (
           <RecipeListItem key={recipe.id} recipe={recipe} />
         ))}
