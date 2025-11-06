@@ -19,9 +19,7 @@ export default function Recipe({ recipe, dispatch }) {
           {/* Category Badge */}
           <CategoryBadge category={recipe?.category} />
           {/* Title */}
-          <h2 className="text-2xl font-semibold text-gray-900">
-            {recipe?.title}
-          </h2>
+          <h2>{recipe?.title}</h2>
 
           {/* Button */}
           <Button
@@ -39,16 +37,24 @@ export default function Recipe({ recipe, dispatch }) {
           <div className="grid grid-cols-1 gap-10 mt-6">
             {/* Ingredients */}
             <div>
-              <h3 className="text-lg font-semibold mb-2">Ingredients:</h3>
-              <p className="text-gray-800 leading-relaxed">
-                {recipe?.ingredients}
-              </p>
+              <h3>Ingredients:</h3>
+              <ul className="text-gray-800 leading-relaxed">
+                {recipe?.ingredients?.map((i) => (
+                  <li key={i.item}>
+                    {i.amount} *** {i.item}
+                  </li>
+                ))}
+              </ul>
             </div>
 
             {/* Method */}
             <div>
-              <h3 className="text-lg font-semibold mb-2">Method:</h3>
-              <p className="text-gray-800 leading-relaxed">{recipe?.method}</p>
+              <h3>Method:</h3>
+              <ol className="text-gray-800 leading-relaxed">
+                {recipe?.method.map((step, index) => (
+                  <li key={recipe.id + index}>{step}</li>
+                ))}
+              </ol>
             </div>
           </div>
         </div>
@@ -56,7 +62,7 @@ export default function Recipe({ recipe, dispatch }) {
       {/* Notes */}
       {recipe?.notes && (
         <div>
-          <h3 className="text-lg font-semibold mb-2">Notes:</h3>
+          <h3>Notes:</h3>
           <p className="text-gray-800 leading-relaxed">{recipe?.notes}</p>
         </div>
       )}

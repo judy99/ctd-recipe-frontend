@@ -10,7 +10,7 @@ export default function Header({ title }) {
   return (
     <header className="bg-teal-200 py-4 shadow-sm">
       <div className="container mx-auto px-4 flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-black">{title}</h1>
+        <h1>{title}</h1>
         <nav className="space-x-6 text-lg">
           <NavLink to={'/'} className={(el) => checkActive(el)}>
             Home

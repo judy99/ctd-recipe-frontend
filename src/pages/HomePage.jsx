@@ -1,4 +1,3 @@
-import styles from '../App.module.css';
 import RecipeList from '../features/RecipeList/RecipeList';
 import Button from '../shared/Button/Button';
 import RecipeFilterForm from '../features/RecipeFilterForm/RecipeFilterForm';
@@ -15,8 +14,8 @@ export default function HomePage({ addRecipe }) {
         key={state.isModalOpen ? 'open' : 'closed'}
       />
       {state?.errorMessage?.length ? (
-        <div className={styles.errorWrapper}>
-          <div className={styles.error}>
+        <div className="absolute inset-0 h-full w-full bg-black/10">
+          <div className="absolute top-5 right-5 w-[400px] rounded-lg border border-red-500 bg-azure p-4">
             <p>Error: {state?.errorMessage}</p>
             <Button
               title="Dismiss"

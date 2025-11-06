@@ -14,7 +14,7 @@ export default function Modal({ children }) {
       onClick={handleModalClose}
     >
       <div
-        className="relative z-[1000] bg-white px-8 py-4 rounded-lg shadow-[0_2px_10px_rgba(0,0,0,0.3)] w-[70%] min-w-[400px] max-w-[800px] max-sm:w-[95%] max-sm:min-w-0"
+        className="relative z-[1000] bg-white px-8 py-4 rounded-lg shadow-[0_2px_10px_rgba(0,0,0,0.3)] w-[70%] min-w-[400px] max-sm:w-[95%] max-sm:min-w-0 max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {children}

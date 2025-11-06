@@ -18,10 +18,40 @@ body {
   font-size: 1em;
 }
 
-h1,
-h2,
-h3,
-h4,
-h6 {
-  font-family: Helvetica, Arial, sans-serif;
+@layer base {
+  body {
+    @apply text-gray-800 leading-relaxed antialiased;
+  }
+
+  h1 {
+    @apply text-3xl font-bold text-gray-900;
+  }
+
+  h2 {
+    @apply text-2xl font-semibold text-gray-900;
+  }
+
+  h3 {
+    @apply text-xl font-semibold text-gray-800;
+  }
+
+  h4 {
+    @apply text-lg font-semibold text-gray-800;
+  }
+
+  h5 {
+    @apply text-base font-medium text-gray-800;
+  }
+
+  h6 {
+    @apply text-sm font-medium text-gray-700;
+  }
+
+  a {
+    @apply text-teal-600 hover:text-teal-700 underline;
+  }
+
+  button {
+    @apply cursor-pointer;
+  }
 }
