@@ -1,7 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { getOptions } from './utility/getOptions';
 import Header from './shared/Header/Header';
-// import styles from './App.module.css';
 import HomePage from './pages/HomePage';
 import RecipePage from './pages/RecipePage';
 import Modal from './features/Modal/Modal';
@@ -129,6 +128,16 @@ function App() {
   };
 
   const updateRecipe = async (updatedRecipe) => {
+    const { ingredients, method } = updatedRecipe;
+    const ing = JSON.parse(ingredients);
+    const m = method.split('|||');
+
+    const recipeOptimisticUpdate = {
+      ...updatedRecipe,
+      ingredients: ing,
+      method: m,
+    };
+
     const originalRecipe = state.recipes.find(
       (recipe) => recipe.id === updatedRecipe.id
     );
@@ -136,7 +145,7 @@ function App() {
     const options = getOptions('PATCH', token, payload.records[0]);
 
     // optimistic update
-    dispatch({ type: 'updateRecipe', editedRecipe: updatedRecipe });
+    dispatch({ type: 'updateRecipe', editedRecipe: recipeOptimisticUpdate });
     try {
       const resp = await fetch(encodeUrl(updatedRecipe.id), options);
       if (!resp.ok) {

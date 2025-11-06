@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import styles from './RecipeForm.module.css';
 import TextInputWithLabel from '../../shared/TextInputWithLabel/TextInputWithLabel';
 import TextareaWithLabel from '../../shared/TextareaWithLabel/TextareaWithLabel';
 import { DEFAULT_PHOTO_URL, DEFAULT_CATEGORY } from '../../shared/constants';
@@ -14,8 +13,8 @@ export default function RecipeForm({
 }) {
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState(DEFAULT_CATEGORY);
-  const [ingredients, setIngredients] = useState('');
-  const [method, setMethod] = useState('');
+  const [ingredients, setIngredients] = useState([{ amount: '', item: '' }]);
+  const [methodSteps, setMethodSteps] = useState(['']);
   const [notes, setNotes] = useState('');
   const [source, setSource] = useState('');
   const [imageFile, setImageFile] = useState(null);
@@ -26,13 +25,26 @@ export default function RecipeForm({
   const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
   const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
+  const handleAddIngredient = () => {
+    setIngredients([...ingredients, { amount: '', item: '' }]);
+  };
+
+  const handleRemoveIngredient = (index) => {
+    setIngredients(ingredients.filter((_, i) => i !== index));
+  };
+
+  const handleAddStep = () => {
+    setMethodSteps([...methodSteps, '']);
+  };
+
+  const handleRemoveStep = (index) => {
+    setMethodSteps(methodSteps.filter((_, i) => i !== index));
+  };
+
   const validate = () => {
     const newErrors = {};
     if (!title.trim()) {
       newErrors.title = 'Title is required.';
-    }
-    if (!method.trim()) {
-      newErrors.method = 'Method is required.';
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -93,8 +105,8 @@ export default function RecipeForm({
     if (recipeToEdit) {
       setTitle(recipeToEdit.title || '');
       setCategory(recipeToEdit.category || DEFAULT_CATEGORY);
-      setIngredients(recipeToEdit.ingredients || '');
-      setMethod(recipeToEdit.method || '');
+      setIngredients(recipeToEdit.ingredients) || [{ amount: '', item: '' }];
+      setMethodSteps(recipeToEdit.method || ['']);
       setNotes(recipeToEdit.notes || '');
       setSource(recipeToEdit.source || '');
       setImageUrl(recipeToEdit.urlCloudinary || DEFAULT_PHOTO_URL);
@@ -111,15 +123,19 @@ export default function RecipeForm({
     // otherwise - use default image which is already uploaded
     if (imageFile) urlCloudinary = await cloudinaryUpload();
 
+    // temporary
     const recipeData = {
       title,
       category,
-      ingredients,
-      method,
+      ingredients: JSON.stringify(ingredients),
+      method: methodSteps.join('|||'),
       notes,
       source,
       urlCloudinary,
     };
+
+    console.log('Recipe submitted:', recipeData);
+    alert('Recipe saved! (check console for data)');
 
     if (recipeToEdit && updateRecipe) {
       updateRecipe({ id: recipeToEdit.id, ...recipeData });
@@ -131,14 +147,22 @@ export default function RecipeForm({
   };
 
   return (
-    <div>
+    <div className="min-h-screen bg-gray-50 flex justify-center">
       {state.isLoading && <Loader />}
-      <h2 className={styles.formTitle}>
-        {`${recipeToEdit ? 'Update ' : 'Create '}`}a recipe
-      </h2>
-      <form onSubmit={(e) => e.preventDefault()}>
-        <div className={styles.formUploadFile}>
-          <label htmlFor="imageUpload" className={styles.uploadLabel}>
+      <form
+        onSubmit={(e) => e.preventDefault()}
+        className="relative w-full bg-white rounded-lg shadow-md p-6 overflow-y-auto space-y-6"
+      >
+        <h2 className="text-center my-1">
+          {`${recipeToEdit ? 'Update ' : 'Create '}`}a recipe
+        </h2>
+
+        {/* upload image */}
+        <div className="flex flex-row-reverse items-center justify-end gap-4 mb-[10px]">
+          <label
+            htmlFor="imageUpload"
+            className="border border-gray-300 rounded-lg px-2 py-2 text-base mx-[10px] w-fit bg-gray-200 hover:cursor-pointer"
+          >
             {imageUrl ? 'Change Image' : 'Choose Image'}
           </label>{' '}
           <input
@@ -146,17 +170,18 @@ export default function RecipeForm({
             type="file"
             accept="image/*"
             onChange={handleFileChange}
-            className={styles.hiddenInput}
+            className="hidden"
           />
-          <div className={styles.previewWrapper}>
+          <div className="flex justify-center items-center border border-gray-300 rounded-md bg-gray-50 w-[200px] h-[150px]">
             <img
               src={imageUrl}
               alt="Recipe image"
-              className={styles.imagePreview}
+              className="overflow-hidden h-[150px]"
             />
           </div>
         </div>
-        <div className={styles.formItem}>
+        {/* Title */}
+        <div>
           <TextInputWithLabel
             labelText="Title:"
             value={title}
@@ -171,58 +196,122 @@ export default function RecipeForm({
             error={errors.title}
           />
         </div>
-        <div className={styles.category}>
-          <label htmlFor="chooseCategory">Choose category: </label>
+        {/* Category */}
+        <div>
+          <label className="block font-medium mb-1">Category</label>
           <select
             name="chooseCategory"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
+            className="w-full border border-gray-300 rounded-md px-3 py-2"
           >
             <option value="breakfast">Breakfast</option>
-            <option value="soup">Soup</option>
             <option value="lunch">Lunch</option>
             <option value="dinner">Dinner</option>
             <option value="dessert">Dessert</option>
+            <option value="soup">Soup</option>
           </select>
         </div>
-        <div className={styles.formItem}>
-          <TextareaWithLabel
-            labelText="Ingredients (optional):"
-            value={ingredients}
-            onChange={(e) => setIngredients(e.target.value)}
-          />
+
+        {/* Ingredients */}
+        <div>
+          <label className="block font-medium mb-2">Ingredients</label>
+          <ul className="space-y-3">
+            {ingredients.map((ing, index) => (
+              <li key={index} className="flex gap-2">
+                <input
+                  type="text"
+                  value={ing.amount}
+                  onChange={(e) => {
+                    const newIngredients = [...ingredients];
+                    newIngredients[index].amount = e.target.value;
+                    setIngredients(newIngredients);
+                  }}
+                  className="w-1/3 border border-gray-300 rounded-md px-2 py-1"
+                  placeholder="Amount"
+                />
+                <input
+                  type="text"
+                  value={ing.item}
+                  onChange={(e) => {
+                    const newIngredients = [...ingredients];
+                    newIngredients[index].item = e.target.value;
+                    setIngredients(newIngredients);
+                  }}
+                  className="flex-1 border border-gray-300 rounded-md px-2 py-1"
+                  placeholder="Ingredient"
+                />
+                <button
+                  type="button"
+                  onClick={() => handleRemoveIngredient(index)}
+                  className="text-red-500 hover:text-red-700 font-bold"
+                >
+                  ×
+                </button>
+              </li>
+            ))}
+          </ul>
+          <button
+            type="button"
+            onClick={handleAddIngredient}
+            className="mt-2 text-sm text-teal-600 hover:text-teal-800"
+          >
+            + Add Ingredient
+          </button>
         </div>
-        <div className={styles.formItem}>
-          <TextareaWithLabel
-            labelText="Method:"
-            value={method}
-            onChange={(e) => {
-              if (e.target.value) {
-                setErrors({ ...errors, method: '' });
-              } else {
-                setErrors({ ...errors, method: 'Method is required.' });
-              }
-              setMethod(e.target.value);
-            }}
-            error={errors.method}
-          />
+
+        {/* Method */}
+        <div>
+          <label className="block font-medium mb-2">Method (Steps)</label>
+          <ol className="list-decimal pl-5 space-y-3">
+            {methodSteps.map((step, index) => (
+              <li key={index} className="flex gap-2">
+                <textarea
+                  value={step}
+                  onChange={(e) => {
+                    const newSteps = [...methodSteps];
+                    newSteps[index] = e.target.value;
+                    setMethodSteps(newSteps);
+                  }}
+                  className="flex-1 border border-gray-300 rounded-md px-3 py-2"
+                  placeholder={`Step ${index + 1}`}
+                  rows={2}
+                />
+                <button
+                  type="button"
+                  onClick={() => handleRemoveStep(index)}
+                  className="text-red-500 hover:text-red-700 font-bold"
+                >
+                  ×
+                </button>
+              </li>
+            ))}
+          </ol>
+          <button
+            type="button"
+            onClick={handleAddStep}
+            className="mt-2 text-sm text-teal-600 hover:text-teal-800"
+          >
+            + Add Step
+          </button>
         </div>
-        <div className={styles.formItem}>
+
+        <div>
           <TextareaWithLabel
-            className={styles.notes}
             labelText="Notes (optional):"
+            placeholder="Any extra notes or tips..."
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
           />
         </div>
-        <div className={styles.formItem}>
+        <div className="pb-20">
           <TextInputWithLabel
             labelText="Source (optional):"
             value={source}
             onChange={(e) => setSource(e.target.value)}
           />
         </div>
-        <div className={styles.buttonWrapper}>
+        <div className="flex items-center justify-center mt-5">
           <Button title="Cancel" onClickHandler={handleCancel} />
           <Button
             disabled={state.isSaving}

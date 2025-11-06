@@ -67,10 +67,16 @@ function reducer(state = initialState, action) {
       };
 
     case actions.loadRecipes:
+      // would be changed with Mongo
       const recipes = action.records?.map((record) => {
+        const { ingredients, method } = record.fields;
+        const ing = JSON.parse(ingredients);
+        const m = method.split('|||');
         const item = {
           id: record.id,
           ...record.fields,
+          method: m,
+          ingredients: [...ing],
         };
         return item;
       });
@@ -127,6 +133,7 @@ function reducer(state = initialState, action) {
       };
 
     // updateRecipe (Optimistic UI)
+    // would be changed with Mongo
     case actions.revertRecipe:
     case actions.updateRecipe:
       const updatedRecipesList = state.recipes.map((recipe) =>
