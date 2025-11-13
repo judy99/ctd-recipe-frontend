@@ -1,6 +1,7 @@
 import { Link } from 'react-router';
 import CategoryBadge from '../../shared/CategoryBadge/CategoryBadge';
 import { DEFAULT_PHOTO_URL } from '../../shared/constants';
+import RatingStars from '../../shared/RatingStars';
 
 function RecipeListItem({ recipe }) {
   return (
@@ -16,6 +17,7 @@ function RecipeListItem({ recipe }) {
             {recipe.title}
           </h4>
         </Link>
+        <RatingStars />
         <div className="flex">
           <CategoryBadge category={recipe.category} />
         </div>
