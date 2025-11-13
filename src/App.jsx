@@ -177,7 +177,7 @@ function App() {
           updateRecipe={updateRecipe}
         />
       </Modal>
-      <footer className="mx-auto w-full text-center p-2 box-border mt-6 bg-[#a6e6e6]">
+      <footer className="mx-auto w-full text-center p-2 box-border mt-6 bg-teal-100">
         <p className="m-0">
           &copy; <span className="pr-2.5">{currentYear}</span>
           Recipe Book

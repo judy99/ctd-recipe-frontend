@@ -4,7 +4,7 @@ import { DEFAULT_PHOTO_URL } from '../../shared/constants';
 
 function RecipeListItem({ recipe }) {
   return (
-    <li className="text-left bg-white border border-gray-300 rounded-lg overflow-hidden flex flex-col bg-origin-border m-2.5 w-[250px]">
+    <li className="card">
       <img
         className="mb-2.5 h-[150px] object-cover"
         src={recipe.urlCloudinary || DEFAULT_PHOTO_URL}

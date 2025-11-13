@@ -10,7 +10,7 @@ export default function NotFound() {
         incorrectly.
       </p>
       <Link to={'/'}>
-        <Button title="Go Back Home" />
+        <Button title="Go Back Home" variant="primary" />
       </Link>
     </div>
   );

@@ -198,39 +198,30 @@ export default function RecipeForm({
         </div>
         {/* Category */}
         <div>
-          <label className="block font-medium mb-1">Category</label>
-          <select
-            name="chooseCategory"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="w-full border border-gray-300 rounded-md px-3 py-2"
-          >
-            <option value="breakfast">Breakfast</option>
-            <option value="lunch">Lunch</option>
-            <option value="dinner">Dinner</option>
-            <option value="dessert">Dessert</option>
-            <option value="soup">Soup</option>
-          </select>
+          <label className="formElementLabel">Category:</label>
+          <div className="formElementWrapper">
+            <select
+              name="chooseCategory"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="formElement"
+            >
+              <option value="breakfast">Breakfast</option>
+              <option value="lunch">Lunch</option>
+              <option value="dinner">Dinner</option>
+              <option value="dessert">Dessert</option>
+              <option value="soup">Soup</option>
+            </select>
+          </div>
         </div>
 
         {/* Ingredients */}
         <div>
-          <label className="block font-medium mb-2">Ingredients</label>
+          <label className="formElementLabel">Ingredients:</label>
           <ul className="space-y-3">
             {ingredients.map((ing, index) => (
               <li key={index} className="flex gap-2">
-                <input
-                  type="text"
-                  value={ing.amount}
-                  onChange={(e) => {
-                    const newIngredients = [...ingredients];
-                    newIngredients[index].amount = e.target.value;
-                    setIngredients(newIngredients);
-                  }}
-                  className="w-1/3 border border-gray-300 rounded-md px-2 py-1"
-                  placeholder="Amount"
-                />
-                <input
+                <TextInputWithLabel
                   type="text"
                   value={ing.item}
                   onChange={(e) => {
@@ -238,9 +229,39 @@ export default function RecipeForm({
                     newIngredients[index].item = e.target.value;
                     setIngredients(newIngredients);
                   }}
-                  className="flex-1 border border-gray-300 rounded-md px-2 py-1"
+                  // className="flex-1 border border-gray-300 rounded-md px-2 py-1"
                   placeholder="Ingredient"
                 />
+                <TextInputWithLabel
+                  type="text"
+                  value={ing.amount}
+                  onChange={(e) => {
+                    const newIngredients = [...ingredients];
+                    newIngredients[index].amount = e.target.value;
+                    setIngredients(newIngredients);
+                  }}
+                  // className="w-1/3 border border-gray-300 rounded-md px-2 py-1"
+                  placeholder="Amount"
+                />
+                {/* Unit */}
+                <div>
+                  <label className="formElementLabel"></label>
+                  <div className="formElementWrapper">
+                    <select
+                      name="chooseUnit"
+                      value={category}
+                      onChange={(e) => setCategory(e.target.value)}
+                      className="formElement"
+                    >
+                      <option value="psc">psc</option>
+                      <option value="ml">ml</option>
+                      <option value="gr">gr</option>
+                      <option value="kg">kg</option>
+                      <option value="cup">cup</option>
+                    </select>
+                  </div>
+                </div>
+
                 <button
                   type="button"
                   onClick={() => handleRemoveIngredient(index)}
@@ -262,20 +283,19 @@ export default function RecipeForm({
 
         {/* Method */}
         <div>
-          <label className="block font-medium mb-2">Method (Steps)</label>
-          <ol className="list-decimal pl-5 space-y-3">
+          <label className="formElementLabel">Method (Steps):</label>
+          <ol className="list-decimal space-y-3">
             {methodSteps.map((step, index) => (
-              <li key={index} className="flex gap-2">
-                <textarea
+              <li key={index} className="flex gap-2 pl-5">
+                <TextareaWithLabel
                   value={step}
                   onChange={(e) => {
                     const newSteps = [...methodSteps];
                     newSteps[index] = e.target.value;
                     setMethodSteps(newSteps);
                   }}
-                  className="flex-1 border border-gray-300 rounded-md px-3 py-2"
                   placeholder={`Step ${index + 1}`}
-                  rows={2}
+                  // rows={2}
                 />
                 <button
                   type="button"

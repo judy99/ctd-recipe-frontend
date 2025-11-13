@@ -8,7 +8,7 @@ export default function Header({ title }) {
   };
 
   return (
-    <header className="bg-teal-200 py-4 shadow-sm">
+    <header className="bg-teal-100 py-4 shadow-sm">
       <div className="container mx-auto px-4 flex justify-between items-center">
         <h1>{title}</h1>
         <nav className="space-x-6 text-lg">
